@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.annotations.Beta;
 import com.pthore.service.posts.dao.IUserPostMetadataRepository;
 import com.pthore.service.posts.dao.IUserProfileRepository;
 import com.pthore.service.posts.dao.MongodbRepository;
@@ -221,13 +222,13 @@ public class PostService {
 		
 		return this.getDtoFromPost(post);
 	}
-
+	@Beta
 	private final PostDto getPostDtoDataInAppropriateFormat(PostDto postDto) throws InvalidAttributesException {
 		// parse element types and set the postData appropriately.
 		int imagePointer = 0; int index = 0;
 		List<String> elementTypes = postDto.getElementTypes();
 		List<String> postDataRef = postDto.getPostData();
-		
+//		TODO: Complete the implementation for all the different sections of the post.
 		while(postDto.getElementTypes().size() < index) {
 			
 			switch(elementTypes.get(index)) {

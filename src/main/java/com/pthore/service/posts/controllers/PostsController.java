@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.annotations.Beta;
 import com.pthore.service.posts.documents.MiniPost;
 import com.pthore.service.posts.dto.MiniPostRequestDto;
 import com.pthore.service.posts.dto.PostDto;
@@ -51,7 +52,7 @@ public class PostsController {
 		PostDto2 postDto = mapper.reader().readValue(postRequest, PostDto2.class);
 		
 		log.info("post Request = {}, file = {}", postDto, file == null? null: file.getSize());
-		postDto = null; // postService.doPostOperations(postRequest, file);
+		postDto = postService.doPostOperations(postDto, file);
 		return ResponseEntity.ok().body(postDto);
 		
 	}
@@ -97,7 +98,10 @@ public class PostsController {
 	
 	
 	/*  Api to search the posts based on domain, author, title , or any keyword. [ service to create and handle posts metadata in mysql ]
+	 *  TODO: This API further needs to support Filters as input, and should be able to make calls to searchEngine for textbased searches and 
+	 *  also get facets.
 	*/
+	@Beta
 	@GetMapping(value = "/search/{searchInput}/{page}")
 	public List<MiniPost> getSearchResults(
 			@PathVariable("page") int page, 
@@ -120,6 +124,7 @@ public class PostsController {
 	
 	
 	/*
+	 * 
 	*/
 	
 	
